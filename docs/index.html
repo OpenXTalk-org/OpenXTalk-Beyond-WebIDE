@@ -1,7 +1,7 @@
 <!doctype html>
 <!--
-  The web IDE's page (tools/web-ide/build_site.py fills in development-community-9.7.1-OXT,
-  0.2.7-rc.6.1, 44d78e433fbfdc90 and https://github.com/SethMorrowSoftware/OpenXTalk-Beyond).
+  The web IDE's page (tools/web-ide/build_site.py fills in development-community-9.7.1-BeyondEngine,
+  0.2.7-rc.6.16, 1645724269cfd333 and https://github.com/SethMorrowSoftware/OpenXTalk-Beyond).
 
   The page is the IDE's desktop: it fills the browser's window, and the
   IDE's windows (the menu bar, the palettes, the stacks) are drawn on it
@@ -14,8 +14,13 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="color-scheme" content="light">
+    <!-- The IDE follows the browser between light and dark: the
+         systemAppearance is the browser's colour scheme, and the IDE
+         hears systemAppearanceChanged when it changes (engine/src/em-dc.js).
+         A web standalone does only when its page asks, as this one does -->
+    <meta name="oxt-appearance" content="system">
     <title>OXT-Beyond Web IDE</title>
-    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23243447'/%3E%3Ctext x='16' y='22' font-family='sans-serif' font-size='15' font-weight='700' fill='%23f39c12' text-anchor='middle'%3EX%3C/text%3E%3C/svg%3E">
+    <link rel="icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDI0IDEwMjQiPgo8c3R5bGU+Ci50aWxlIHsgZmlsbDogdXJsKCN0aWxlLWZhZGUpOyB9Ci5yaW0geyBmaWxsOiBub25lOyBzdHJva2U6IHVybCgjcmltLmZpcmUpOyBzdHJva2Utd2lkdGg6IDE4OyB9Ci5ib2x0IHsgZmlsbDogdXJsKCNib2x0LmdvbGQpOyBzdHJva2U6ICM3QTVBMDA7IHN0cm9rZS13aWR0aDogMzsgc3Ryb2tlLWxpbmVqb2luOiByb3VuZDsgfQoub3V0bGluZSB7IGZpbGw6ICMwMDAwMDA7IHN0cm9rZTogIzAwMDAwMDsgc3Ryb2tlLXdpZHRoOiAyMjsgc3Ryb2tlLWxpbmVqb2luOiByb3VuZDsgfQoub3h0IHsgZmlsbDogdXJsKCNveHQtZmxhbWUpOyB9Ci5hcmMgeyBmaWxsOiBub25lOyBzdHJva2U6ICNCRkVGRkY7IHN0cm9rZS13aWR0aDogNTsgc3Ryb2tlLWxpbmVqb2luOiByb3VuZDsgc3Ryb2tlLWxpbmVjYXA6IHJvdW5kOyB9Ci50aWNrIHsgc3Ryb2tlOiAjOEE5MDk5OyBzdHJva2Utd2lkdGg6IDM7IH0KLmJleW9uZCB7IGZpbGw6ICNFOUVDRUY7IH0KPC9zdHlsZT4KPGRlZnM+CjxsaW5lYXJHcmFkaWVudCBpZD0idGlsZS1mYWRlIiB4MT0iMCIgeTE9IjAiIHgyPSIwIiB5Mj0iMSI+PHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjMkIyRjM2Ii8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjMTUxNzFBIi8+PC9saW5lYXJHcmFkaWVudD4KPGxpbmVhckdyYWRpZW50IGlkPSJyaW0uZmlyZSIgZ3JhZGllbnRVbml0cz0idXNlclNwYWNlT25Vc2UiIHgxPSI2NCIgeTE9IjY0IiB4Mj0iOTYwIiB5Mj0iOTYwIj48c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiNGRkMyNEQiLz48c3RvcCBvZmZzZXQ9IjAuNSIgc3RvcC1jb2xvcj0iI0ZGNzcwMCIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iI0ZGM0QwMCIvPjwvbGluZWFyR3JhZGllbnQ+CjxsaW5lYXJHcmFkaWVudCBpZD0iYm9sdC5nb2xkIiB4MT0iMCIgeTE9IjAiIHgyPSIwIiB5Mj0iMSI+PHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjRkZGOUM0Ii8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjRkZDOTJFIi8+PC9saW5lYXJHcmFkaWVudD4KPGxpbmVhckdyYWRpZW50IGlkPSJveHQtZmxhbWUiIGdyYWRpZW50VW5pdHM9InVzZXJTcGFjZU9uVXNlIiB4MT0iMCIgeTE9IjQwMCIgeDI9IjAiIHkyPSI2NjAiPjxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iI0ZGQzA0RCIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iI0ZGNkEwMCIvPjwvbGluZWFyR3JhZGllbnQ+CjxsaW5lYXJHcmFkaWVudCBpZD0ic2hpbmUtMSIgZ3JhZGllbnRVbml0cz0idXNlclNwYWNlT25Vc2UiIHgxPSItOTAiIHkxPSIwIiB4Mj0iOTAiIHkyPSIwIj48c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiNGRkZGRkYiIHN0b3Atb3BhY2l0eT0iMCIvPjxzdG9wIG9mZnNldD0iMC41IiBzdG9wLWNvbG9yPSIjRkZGRkZGIi8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjRkZGRkZGIiBzdG9wLW9wYWNpdHk9IjAiLz48L2xpbmVhckdyYWRpZW50Pgo8cmFkaWFsR3JhZGllbnQgaWQ9Imdsb3ctMSIgZ3JhZGllbnRVbml0cz0idXNlclNwYWNlT25Vc2UiIGN4PSI3NDAiIGN5PSIzMDAiIHI9IjYyMCI+PHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjRkZCMzQ3Ii8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjRkY3NzAwIiBzdG9wLW9wYWNpdHk9IjAiLz48L3JhZGlhbEdyYWRpZW50Pgo8cmFkaWFsR3JhZGllbnQgaWQ9ImhhbG8tMSIgZ3JhZGllbnRVbml0cz0idXNlclNwYWNlT25Vc2UiIGN4PSI3MTAiIGN5PSIyNjAiIHI9IjI0MCI+PHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjRkZGNEIwIi8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjRkZEMjREIiBzdG9wLW9wYWNpdHk9IjAiLz48L3JhZGlhbEdyYWRpZW50Pgo8Y2xpcFBhdGggaWQ9InRpbGUuZWRnZSI+PHJlY3QgeD0iNjQiIHk9IjY0IiB3aWR0aD0iODk2IiBoZWlnaHQ9Ijg5NiIgcng9IjIwMCIvPjwvY2xpcFBhdGg+CjxjbGlwUGF0aCBpZD0ib3h0LmxldHRlcnMiPjxwYXRoIGQ9Ik0yOTYuMSA0NDBRMjcwLjYgNDQwIDI1Ni41IDQ2MVEyNDIuNSA0ODEuOSAyNDIuNSA1MjBRMjQyLjUgNTU3LjggMjU2LjUgNTc4LjhRMjcwLjYgNTk5LjcgMjk2LjEgNTk5LjdRMzIxLjggNTk5LjcgMzM1LjkgNTc4LjhRMzQ5LjkgNTU3LjggMzQ5LjkgNTIwUTM0OS45IDQ4MS45IDMzNS45IDQ2MVEzMjEuOCA0NDAgMjk2LjEgNDQwWk0yOTYuMSAzOTUuMVEzNDguMyAzOTUuMSAzNzcuOSA0MjguM1E0MDcuNSA0NjEuNSA0MDcuNSA1MjBRNDA3LjUgNTc4LjMgMzc3LjkgNjExLjVRMzQ4LjMgNjQ0LjcgMjk2LjEgNjQ0LjdRMjQ0LjEgNjQ0LjcgMjE0LjQgNjExLjVRMTg0LjggNTc4LjMgMTg0LjggNTIwUTE4NC44IDQ2MS41IDIxNC40IDQyOC4zUTI0NC4xIDM5NS4xIDI5Ni4xIDM5NS4xWiBNNTcwLjQgNTE3LjIgNjQ1LjUgNjQwSDU4Ny4zTDUzNi43IDU1Ny44TDQ4Ni41IDY0MEg0MjguMUw1MDMuMiA1MTcuMkw0MzEgMzk5LjRINDg5LjNMNTM2LjcgNDc2LjlMNTg0IDM5OS40SDY0Mi42WiBNNjUyLjkgMzk5LjRIODUyLjRWNDQ2LjNINzgwLjZWNjQwSDcyNC44VjQ0Ni4zSDY1Mi45WiIvPjwvY2xpcFBhdGg+CjwvZGVmcz4KPHJlY3QgY2xhc3M9InRpbGUiIHg9IjY0IiB5PSI2NCIgd2lkdGg9Ijg5NiIgaGVpZ2h0PSI4OTYiIHJ4PSIyMDAiLz4KPGcgY2xpcC1wYXRoPSJ1cmwoI3RpbGUuZWRnZSkiPgo8ZyBvcGFjaXR5PSIwLjEiIHRyYW5zZm9ybT0icm90YXRlKDAgNzQwIDMwMCkiPjxwb2x5Z29uIHBvaW50cz0iNzQwLDMwMCAxODQwLDMwMCAxODMzLDQyMyIgZmlsbD0iI0ZGQjM0NyIvPjxwb2x5Z29uIHBvaW50cz0iNzQwLDMwMCAxNzMxLDc3NyAxNjcxLDg4NSIgZmlsbD0iI0ZGQjM0NyIvPjxwb2x5Z29uIHBvaW50cz0iNzQwLDMwMCAxNDI2LDExNjAgMTMyNSwxMjMxIiBmaWxsPSIjRkZCMzQ3Ii8+PHBvbHlnb24gcG9pbnRzPSI3NDAsMzAwIDk4NSwxMzcyIDg2MywxMzkzIiBmaWxsPSIjRkZCMzQ3Ii8+PHBvbHlnb24gcG9pbnRzPSI3NDAsMzAwIDQ5NSwxMzcyIDM3NywxMzM4IiBmaWxsPSIjRkZCMzQ3Ii8+PHBvbHlnb24gcG9pbnRzPSI3NDAsMzAwIDU0LDExNjAgLTM4LDEwNzgiIGZpbGw9IiNGRkIzNDciLz48cG9seWdvbiBwb2ludHM9Ijc0MCwzMDAgLTI1MSw3NzcgLTI5OCw2NjMiIGZpbGw9IiNGRkIzNDciLz48cG9seWdvbiBwb2ludHM9Ijc0MCwzMDAgLTM2MCwzMDAgLTM1MywxNzciIGZpbGw9IiNGRkIzNDciLz48cG9seWdvbiBwb2ludHM9Ijc0MCwzMDAgLTI1MSwtMTc3IC0xOTEsLTI4NSIgZmlsbD0iI0ZGQjM0NyIvPjxwb2x5Z29uIHBvaW50cz0iNzQwLDMwMCA1NCwtNTYwIDE1NSwtNjMxIiBmaWxsPSIjRkZCMzQ3Ii8+PHBvbHlnb24gcG9pbnRzPSI3NDAsMzAwIDQ5NSwtNzcyIDYxNywtNzkzIiBmaWxsPSIjRkZCMzQ3Ii8+PHBvbHlnb24gcG9pbnRzPSI3NDAsMzAwIDk4NSwtNzcyIDExMDMsLTczOCIgZmlsbD0iI0ZGQjM0NyIvPjxwb2x5Z29uIHBvaW50cz0iNzQwLDMwMCAxNDI2LC01NjAgMTUxOCwtNDc4IiBmaWxsPSIjRkZCMzQ3Ii8+PHBvbHlnb24gcG9pbnRzPSI3NDAsMzAwIDE3MzEsLTE3NyAxNzc4LC02MyIgZmlsbD0iI0ZGQjM0NyIvPjwvZz4KPHJlY3QgeD0iNjQiIHk9IjY0IiB3aWR0aD0iODk2IiBoZWlnaHQ9Ijg5NiIgZmlsbD0idXJsKCNnbG93LTEpIiBvcGFjaXR5PSIwLjM0Ii8+CjxlbGxpcHNlIGN4PSI0MDAiIGN5PSI4MCIgcng9IjUyMCIgcnk9IjIxMCIgZmlsbD0iI0ZGRkZGRiIgb3BhY2l0eT0iMC4wNSIvPgo8L2c+CjxyZWN0IGNsYXNzPSJyaW0iIGZpbGw9Im5vbmUiIHN0cm9rZT0iI0ZGNzcwMCIgc3Ryb2tlLXdpZHRoPSIxOCIgeD0iNjQiIHk9IjY0IiB3aWR0aD0iODk2IiBoZWlnaHQ9Ijg5NiIgcng9IjIwMCIvPgo8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSg1MTIgNTIwKSBzY2FsZSgxLjIpIHRyYW5zbGF0ZSgtNTE4IC0zOTcpIj4KPGNpcmNsZSBjeD0iNzEwIiBjeT0iMjYwIiByPSIyNDAiIGZpbGw9InVybCgjaGFsby0xKSIgb3BhY2l0eT0iMC42Ii8+CjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDYwMCwxNTApIHNjYWxlKDQuMikiPjxwYXRoIGNsYXNzPSJib2x0IiBmaWxsPSIjRkZFMTREIiBzdHJva2U9IiM3QTVBMDAiIHN0cm9rZS13aWR0aD0iMyIgZD0iTTMwIDAgTDAgNTYgSDIyIEw4IDEwMCBMNTIgMzYgSDI4IEw0NCAwIFoiLz48L2c+CjxwYXRoIGNsYXNzPSJvdXRsaW5lIiBmaWxsPSIjMDAwMDAwIiBzdHJva2U9IiMwMDAwMDAiIHN0cm9rZS13aWR0aD0iMjIiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGQ9Ik0yOTYuMSA0NDBRMjcwLjYgNDQwIDI1Ni41IDQ2MVEyNDIuNSA0ODEuOSAyNDIuNSA1MjBRMjQyLjUgNTU3LjggMjU2LjUgNTc4LjhRMjcwLjYgNTk5LjcgMjk2LjEgNTk5LjdRMzIxLjggNTk5LjcgMzM1LjkgNTc4LjhRMzQ5LjkgNTU3LjggMzQ5LjkgNTIwUTM0OS45IDQ4MS45IDMzNS45IDQ2MVEzMjEuOCA0NDAgMjk2LjEgNDQwWk0yOTYuMSAzOTUuMVEzNDguMyAzOTUuMSAzNzcuOSA0MjguM1E0MDcuNSA0NjEuNSA0MDcuNSA1MjBRNDA3LjUgNTc4LjMgMzc3LjkgNjExLjVRMzQ4LjMgNjQ0LjcgMjk2LjEgNjQ0LjdRMjQ0LjEgNjQ0LjcgMjE0LjQgNjExLjVRMTg0LjggNTc4LjMgMTg0LjggNTIwUTE4NC44IDQ2MS41IDIxNC40IDQyOC4zUTI0NC4xIDM5NS4xIDI5Ni4xIDM5NS4xWiIvPgo8cGF0aCBjbGFzcz0ib3V0bGluZSIgZmlsbD0iIzAwMDAwMCIgc3Ryb2tlPSIjMDAwMDAwIiBzdHJva2Utd2lkdGg9IjIyIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBkPSJNNTcwLjQgNTE3LjIgNjQ1LjUgNjQwSDU4Ny4zTDUzNi43IDU1Ny44TDQ4Ni41IDY0MEg0MjguMUw1MDMuMiA1MTcuMkw0MzEgMzk5LjRINDg5LjNMNTM2LjcgNDc2LjlMNTg0IDM5OS40SDY0Mi42WiIvPgo8cGF0aCBjbGFzcz0ib3V0bGluZSIgZmlsbD0iIzAwMDAwMCIgc3Ryb2tlPSIjMDAwMDAwIiBzdHJva2Utd2lkdGg9IjIyIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBkPSJNNjUyLjkgMzk5LjRIODUyLjRWNDQ2LjNINzgwLjZWNjQwSDcyNC44VjQ0Ni4zSDY1Mi45WiIvPgo8cGF0aCBjbGFzcz0ib3h0IiBmaWxsPSIjRkY3NzAwIiBkPSJNMjk2LjEgNDQwUTI3MC42IDQ0MCAyNTYuNSA0NjFRMjQyLjUgNDgxLjkgMjQyLjUgNTIwUTI0Mi41IDU1Ny44IDI1Ni41IDU3OC44UTI3MC42IDU5OS43IDI5Ni4xIDU5OS43UTMyMS44IDU5OS43IDMzNS45IDU3OC44UTM0OS45IDU1Ny44IDM0OS45IDUyMFEzNDkuOSA0ODEuOSAzMzUuOSA0NjFRMzIxLjggNDQwIDI5Ni4xIDQ0MFpNMjk2LjEgMzk1LjFRMzQ4LjMgMzk1LjEgMzc3LjkgNDI4LjNRNDA3LjUgNDYxLjUgNDA3LjUgNTIwUTQwNy41IDU3OC4zIDM3Ny45IDYxMS41UTM0OC4zIDY0NC43IDI5Ni4xIDY0NC43UTI0NC4xIDY0NC43IDIxNC40IDYxMS41UTE4NC44IDU3OC4zIDE4NC44IDUyMFExODQuOCA0NjEuNSAyMTQuNCA0MjguM1EyNDQuMSAzOTUuMSAyOTYuMSAzOTUuMVoiLz4KPHBhdGggY2xhc3M9Im94dCIgZmlsbD0iI0ZGNzcwMCIgZD0iTTU3MC40IDUxNy4yIDY0NS41IDY0MEg1ODcuM0w1MzYuNyA1NTcuOEw0ODYuNSA2NDBINDI4LjFMNTAzLjIgNTE3LjJMNDMxIDM5OS40SDQ4OS4zTDUzNi43IDQ3Ni45TDU4NCAzOTkuNEg2NDIuNloiLz4KPHBhdGggY2xhc3M9Im94dCIgZmlsbD0iI0ZGNzcwMCIgZD0iTTY1Mi45IDM5OS40SDg1Mi40VjQ0Ni4zSDc4MC42VjY0MEg3MjQuOFY0NDYuM0g2NTIuOVoiLz4KPGcgY2xpcC1wYXRoPSJ1cmwoI294dC5sZXR0ZXJzKSI+Cjxwb2x5Z29uIHRyYW5zZm9ybT0idHJhbnNsYXRlKDYyMCAwKSIgcG9pbnRzPSItNDAsMzgwIDEzMCwzODAgNDAsNjgwIC0xMzAsNjgwIiBmaWxsPSJ1cmwoI3NoaW5lLTEpIiBvcGFjaXR5PSIwLjgiLz4KPC9nPgo8L2c+Cjwvc3ZnPgo=">
     <style>
       :root {
         --desktop-top: #3b4b5e;
@@ -94,6 +99,22 @@
       }
       html body .oxt-window-close {
         border-radius: 0 6px 0 0;
+      }
+      /* The title bars in a dark browser, where the IDE's windows are dark
+         (the oxt-appearance meta above) */
+      @media (prefers-color-scheme: dark) {
+        html body .oxt-window-border {
+          border-color: rgba(0, 0, 0, 0.8);
+        }
+        html body .oxt-window-title {
+          background: linear-gradient(#2a2f36, #23272d);
+          color: #8b95a3;
+          border-bottom-color: #14171b;
+        }
+        html body .oxt-window-active > .oxt-window-title {
+          background: linear-gradient(#323840, #282d34);
+          color: #eceff3;
+        }
       }
 
       /* Loading */
@@ -241,9 +262,44 @@
         font-size: 14px;
         cursor: pointer;
       }
-      #note button:hover {
+      #note button:hover,
+      #storage button:hover {
         background: rgba(255, 255, 255, 0.1);
         color: #ffffff;
+      }
+
+      /* Shown while the browser is not keeping the home folder, where the
+         IDE saves stacks (LiveCodeStorage in engine/src/em-system.js) */
+      #storage {
+        position: fixed;
+        left: 14px;
+        bottom: 14px;
+        z-index: 50001;
+        max-width: min(560px, calc(100vw - 28px));
+        padding: 10px 40px 10px 14px;
+        border-radius: 8px;
+        background: rgba(110, 30, 20, 0.95);
+        border: 1px solid #ff8b00;
+        color: #ffffff;
+        font-size: 13px;
+        line-height: 1.45;
+        display: none;
+      }
+      #storage b {
+        font-weight: 600;
+      }
+      #storage button {
+        position: absolute;
+        right: 6px;
+        top: 6px;
+        width: 26px;
+        height: 26px;
+        border: 0;
+        border-radius: 5px;
+        background: none;
+        color: #ffd8c2;
+        font-size: 14px;
+        cursor: pointer;
       }
     </style>
   </head>
@@ -259,7 +315,7 @@
     <div id="loading">
       <div id="card">
         <div id="logo"><span>OXT</span>-Beyond</div>
-        <div id="subtitle">Web IDE 0.2.7-rc.6.1</div>
+        <div id="subtitle">Web IDE 0.2.7-rc.6.16</div>
         <div id="bar"><div id="fill"></div></div>
         <div id="status">Loading...</div>
         <div id="error"></div>
@@ -284,20 +340,27 @@
       <button title="Close" aria-label="Close">&#x2715;</button>
     </div>
 
+    <div id="storage" role="alert">
+      <b>Not saved:</b> this browser is not keeping your stacks
+      (<span id="storage-error"></span>). Use <b>File &gt; Download Stack</b> to keep
+      a copy on your computer.
+      <button title="Close" aria-label="Close">&#x2715;</button>
+    </div>
+
     <!-- data-cfasync="false": a CDN that rewrites a page's scripts to run
          them later (Cloudflare's Rocket Loader) leaves this one as it is -->
     <script data-cfasync="false">
       (function() {
         'use strict';
 
-        var ENGINE = 'development-community-9.7.1-OXT';
+        var ENGINE = 'development-community-9.7.1-BeyondEngine';
         var IDE = 'ide.zip';
         // The engine's script and WebAssembly and the IDE keep their names
         // from one release to the next, so each is asked for with this
         // site's stamp (a digest of the three files): a browser that kept
         // another version's copy of one of them in its cache cannot start
         // that copy with this version's others
-        var STAMP = '44d78e433fbfdc90';
+        var STAMP = '1645724269cfd333';
         function stamped(url) {
           return url + '?v=' + STAMP;
         }
@@ -321,6 +384,9 @@
             return;
           }
           failed = true;
+          // The copy this browser kept may be why: the next visit downloads
+          // the engine and the IDE again (forgetCache is below)
+          forgetCache();
           loading.classList.remove('done');
           fill.classList.remove('busy');
           setStatus('');
@@ -343,19 +409,30 @@
 
         // The engine and the IDE are downloaded together, and the bar
         // shows both. The engine's script is added once both are here: the
-        // engine takes the IDE from the request below
+        // engine takes the IDE from Module.livecodeStandaloneRequest
         // (engine/src/em-preamble.js) and its WebAssembly from
         // instantiateWasm.
-        var parts = {engine: {loaded: 0, total: 0}, ide: {loaded: 0, total: 0}};
+        //
+        // Each part's size is the one build_site.py measured: with a server
+        // that compresses (GitHub Pages gzips), what the browser is told is
+        // the compressed size, and what it counts is the bytes unpacked.
+        var parts = {engine: {loaded: 0, total: +'20814290'},
+                     ide: {loaded: 0, total: +'34528347'}};
+        var verb = 'Downloading';
         function progress() {
           var loaded = parts.engine.loaded + parts.ide.loaded;
           var total = parts.engine.total + parts.ide.total;
           if (total > 0) {
             fill.style.width = Math.min(100, 100 * loaded / total).toFixed(1) + '%';
-            setStatus('Downloading the IDE... ' + megabytes(loaded) + ' of ' + megabytes(total) + ' MB');
+            setStatus(verb + ' the IDE... ' + megabytes(loaded) + ' of ' + megabytes(total) + ' MB');
           }
         }
 
+        // The way every browser loads it, and the way this page loaded it
+        // before it kept a copy: XMLHttpRequest, the whole of each part,
+        // and the engine compiled once all of it is here. Used when the
+        // browser lacks what the quicker way below needs, or that way
+        // fails before the engine starts.
         function download(url, part) {
           return new Promise(function(resolve, reject) {
             var xhr = new XMLHttpRequest();
@@ -381,6 +458,204 @@
               reject(new Error('could not download ' + url));
             };
             xhr.send();
+          });
+        }
+
+        function loadSlowly() {
+          parts.engine.loaded = parts.ide.loaded = 0;
+          verb = 'Downloading';
+          return Promise.all([download(stamped(ENGINE + '.wasm'), 'engine'), download(stamped(IDE), 'ide')]).then(function(done) {
+            return {wasm: done[0].response, ide: done[1]};
+          });
+        }
+
+        // The quicker way. A copy of the engine's WebAssembly and of the IDE
+        // is kept in the browser (its Cache Storage, under the stamped
+        // addresses), so a visit after the first takes them from there and
+        // downloads nothing; the copies of another stamp are deleted once
+        // this one's are kept. And the engine is compiled as its
+        // WebAssembly arrives (compileStreaming), not after. The copy is
+        // only a convenience: a browser that keeps none (a page that is not
+        // https or localhost, a private window, no room) still loads the
+        // IDE, and a failed start deletes it, so the next visit downloads
+        // it again.
+        var CACHE = 'oxt-web-ide ' + location.pathname.replace(/[^\/]*$/, '');
+        var quick = typeof fetch === 'function' && typeof Response === 'function' &&
+                    typeof ReadableStream === 'function' &&
+                    typeof WebAssembly.compileStreaming === 'function';
+
+        function openCache() {
+          try {
+            if (window.caches) {
+              return caches.open(CACHE).catch(function() {
+                return null;
+              });
+            }
+          } catch (e) {
+          }
+          return Promise.resolve(null);
+        }
+
+        function forgetCache() {
+          try {
+            if (window.caches && CACHE) {
+              caches.delete(CACHE).catch(function() {});
+            }
+          } catch (e) {
+          }
+        }
+
+        // Once both are kept: the other stamps' copies go
+        function tidyCache(cache) {
+          cache.keys().then(function(requests) {
+            requests.forEach(function(request) {
+              if (request.url.slice(-STAMP.length - 3) !== '?v=' + STAMP) {
+                cache.delete(request).catch(function() {});
+              }
+            });
+          }).catch(function() {});
+        }
+
+        // The body of response, counted into part as it arrives
+        function counted(response, part) {
+          var reader = response.body.getReader();
+          return new ReadableStream({
+            pull: function(controller) {
+              return reader.read().then(function(chunk) {
+                if (chunk.done) {
+                  controller.close();
+                } else {
+                  parts[part].loaded += chunk.value.byteLength;
+                  progress();
+                  controller.enqueue(chunk.value);
+                }
+              });
+            },
+            cancel: function(reason) {
+              return reader.cancel(reason);
+            }
+          });
+        }
+
+        // The kept copy of url, or a new download of it, kept as it arrives
+        // (put reads its own branch of the body). Answers the response and
+        // whether it came from the copy.
+        function fetchKept(cache, url, signal) {
+          var kept = cache ? cache.match(url).catch(function() {
+            return null;
+          }) : Promise.resolve(null);
+          return kept.then(function(response) {
+            if (response) {
+              return {response: response, kept: true};
+            }
+            return fetch(url, signal ? {signal: signal} : undefined).then(function(response) {
+              if (!response.ok || !response.body) {
+                throw new Error(url + ': ' + response.status + ' ' + response.statusText);
+              }
+              var stored = null;
+              if (cache) {
+                stored = cache.put(url, response.clone()).then(function() {
+                  return true;
+                }, function() {
+                  return false;
+                });
+              }
+              return {response: response, kept: false, stored: stored};
+            });
+          });
+        }
+
+        var aborter = null;
+        function loadQuickly(cache) {
+          var engineUrl = stamped(ENGINE + '.wasm');
+          var ideUrl = stamped(IDE);
+          var stores = [];
+          // Stops the downloads of a load that fails, for the slower way
+          aborter = typeof AbortController === 'function' ? new AbortController() : null;
+          var signal = aborter && aborter.signal;
+
+          // The engine, compiled as it arrives. compileStreaming needs the
+          // type application/wasm, which this response has whatever the
+          // server said.
+          var engine = fetchKept(cache, engineUrl, signal).then(function(got) {
+            if (got.stored) {
+              stores.push(got.stored);
+            }
+            var wasm = new Response(counted(got.response, 'engine'),
+                                    {headers: {'Content-Type': 'application/wasm'}});
+            return WebAssembly.compileStreaming(wasm).catch(function(error) {
+              // A kept copy that does not compile is not used again
+              if (got.kept && cache) {
+                cache.delete(engineUrl).catch(function() {});
+              }
+              throw error;
+            });
+          });
+
+          var ide = fetchKept(cache, ideUrl, signal).then(function(got) {
+            if (got.stored) {
+              stores.push(got.stored);
+            }
+            return new Response(counted(got.response, 'ide')).arrayBuffer().then(function(buffer) {
+              if (!buffer.byteLength || (parts.ide.total && buffer.byteLength !== parts.ide.total)) {
+                if (got.kept && cache) {
+                  cache.delete(ideUrl).catch(function() {});
+                }
+                throw new Error(IDE + ' has ' + buffer.byteLength + ' bytes, not ' + parts.ide.total);
+              }
+              return buffer;
+            });
+          });
+
+          return Promise.all([engine, ide]).then(function(done) {
+            if (cache && stores.length) {
+              Promise.all(stores).then(function(kept) {
+                if (kept.every(Boolean)) {
+                  tidyCache(cache);
+                }
+              });
+            } else if (cache) {
+              tidyCache(cache);
+            }
+            // What the engine reads of the request it is handed
+            // (engine/src/em-preamble.js, em-standalone.js): a finished
+            // request whose response is the IDE. An engine that waits for
+            // the request's load event (one older than the page's handing
+            // it over) is sent one.
+            return {module: done[0],
+                    ide: {readyState: 4, status: 200, statusText: 'OK', response: done[1],
+                          addEventListener: function(type, listener) {
+                            if (type === 'load') {
+                              setTimeout(listener, 0);
+                            }
+                          }}};
+          });
+        }
+
+        function load() {
+          if (!quick) {
+            return loadSlowly();
+          }
+          return openCache().then(function(cache) {
+            // The bar says where the parts come from
+            if (cache) {
+              return Promise.all([cache.match(stamped(ENGINE + '.wasm')), cache.match(stamped(IDE))]).then(function(found) {
+                if (found[0] && found[1]) {
+                  verb = 'Loading';
+                }
+                return cache;
+              }, function() {
+                return cache;
+              });
+            }
+            return cache;
+          }).then(loadQuickly).catch(function(error) {
+            console.warn('The web IDE is downloaded the slower way: ' + (error && error.message || error));
+            if (aborter) {
+              aborter.abort();
+            }
+            forgetCache();
+            return loadSlowly();
           });
         }
 
@@ -415,10 +690,16 @@
             fail('The web IDE stopped (' + what + '). The browser\'s console has the details.');
           },
 
-          // The engine's WebAssembly, from the download below
+          // The engine's WebAssembly, from the download below: compiled
+          // already (engineModule) or the bytes to compile (engineBinary)
           instantiateWasm: function(imports, receiveInstance) {
-            WebAssembly.instantiate(engineBinary, imports).then(function(result) {
-              engineBinary = null;
+            var instantiated = engineModule ?
+              WebAssembly.instantiate(engineModule, imports).then(function(instance) {
+                return {instance: instance, module: engineModule};
+              }) :
+              WebAssembly.instantiate(engineBinary, imports);
+            instantiated.then(function(result) {
+              engineBinary = engineModule = null;
               receiveInstance(result.instance, result.module);
             }, function(error) {
               fail('The web IDE\'s engine could not start: ' + error.message + '.');
@@ -427,10 +708,12 @@
           },
         };
         var engineBinary = null;
+        var engineModule = null;
 
-        Promise.all([download(stamped(ENGINE + '.wasm'), 'engine'), download(stamped(IDE), 'ide')]).then(function(done) {
-          engineBinary = done[0].response;
-          Module.livecodeStandaloneRequest = done[1];
+        load().then(function(done) {
+          engineModule = done.module || null;
+          engineBinary = done.wasm || null;
+          Module.livecodeStandaloneRequest = done.ide;
           fill.style.width = '100%';
           fill.classList.add('busy');
           setStatus('Starting the engine...');
@@ -469,6 +752,7 @@
             document.getElementById('fullscreen').style.display = 'block';
           }
           showNote();
+          showStorage();
           // Ask the browser to keep the stacks the IDE keeps in its storage
           // (IndexedDB) when it runs short of space
           if (navigator.storage && navigator.storage.persist) {
@@ -476,11 +760,42 @@
           }
         }
 
-        window.addEventListener('error', function(e) {
-          if (!started) {
-            fail('Something went wrong (' + (e.message || 'an error') + '). ' +
-                 'The browser\'s console has the details.');
+        // An error before the IDE has opened stops the start, and the page
+        // says so, when it is the IDE's own (oxtOwnError): a script's of
+        // the page's site (this page, the engine's script) or the engine's
+        // WebAssembly's. Another script's error is not the IDE's, and the
+        // IDE goes on starting: a browser extension's script in the page
+        // (which a private window leaves out), or a script of another
+        // site, which the browser reports as "Script error." with no file.
+        // Before 0.2.7-rc.6.15 any error stopped it: the page showed
+        // "Something went wrong" in a normal window and opened in a
+        // private one, though the IDE had gone on starting under the
+        // message (seth, 2026-11-04). The Stack Player's page, the
+        // gallery's and the web standalone's (engine/rsrc/
+        // emscripten-html-template.html) carry the same oxtOwnError.
+        function oxtOwnError(e) {
+          var file = String(e.filename || '');
+          var site = location.protocol === 'file:' ? 'file:' : location.origin + '/';
+          if (e.error && typeof WebAssembly === 'object' &&
+              (e.error instanceof WebAssembly.RuntimeError ||
+               e.error instanceof WebAssembly.CompileError ||
+               e.error instanceof WebAssembly.LinkError)) {
+            return true;
           }
+          return file !== '' && (file.indexOf(site) === 0 || file.indexOf('wasm:') === 0);
+        }
+
+        window.addEventListener('error', function(e) {
+          if (started) {
+            return;
+          }
+          if (!oxtOwnError(e)) {
+            console.warn('The web IDE goes on starting after an error that is not its own: ' +
+                         (e.message || 'an error') + (e.filename ? ' (' + e.filename + ')' : ''));
+            return;
+          }
+          fail('Something went wrong (' + (e.message || 'an error') + '). ' +
+               'The browser\'s console has the details.');
         });
 
         // Leaving the page closes the IDE, and what is not saved is lost
@@ -529,6 +844,26 @@
             }
           });
         }
+
+        // While the browser is not keeping the home folder (a write to its
+        // storage failed, or the folder could not be loaded from it), a
+        // bar says so: the engine's storage tells the page each time that
+        // changes (an "oxtstoragestate" event; Module.livecodeStorageError,
+        // empty while it is kept). A write that works again hides it; the
+        // close button hides it until that changes again.
+        var storage = document.getElementById('storage');
+        function showStorage() {
+          var error = window.Module && Module.livecodeStorageError || '';
+          if (!started || failed) {
+            return;
+          }
+          document.getElementById('storage-error').textContent = error;
+          storage.style.display = error ? 'block' : 'none';
+        }
+        window.addEventListener('oxtstoragestate', showStorage);
+        storage.querySelector('button').addEventListener('click', function() {
+          storage.style.display = 'none';
+        });
       })();
     </script>
   </body>

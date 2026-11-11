@@ -1,7 +1,7 @@
 <!doctype html>
 <!--
   The web IDE's page (tools/web-ide/build_site.py fills in development-community-9.7.1-BeyondEngine,
-  0.2.7-rc.6.16, 1645724269cfd333 and https://github.com/SethMorrowSoftware/OpenXTalk-Beyond).
+  0.2.7, 2e6b25ff00dbbf5f and https://github.com/SethMorrowSoftware/OpenXTalk-Beyond).
 
   The page is the IDE's desktop: it fills the browser's window, and the
   IDE's windows (the menu bar, the palettes, the stacks) are drawn on it
@@ -315,7 +315,7 @@
     <div id="loading">
       <div id="card">
         <div id="logo"><span>OXT</span>-Beyond</div>
-        <div id="subtitle">Web IDE 0.2.7-rc.6.16</div>
+        <div id="subtitle">Web IDE 0.2.7</div>
         <div id="bar"><div id="fill"></div></div>
         <div id="status">Loading...</div>
         <div id="error"></div>
@@ -360,7 +360,7 @@
         // site's stamp (a digest of the three files): a browser that kept
         // another version's copy of one of them in its cache cannot start
         // that copy with this version's others
-        var STAMP = '1645724269cfd333';
+        var STAMP = '2e6b25ff00dbbf5f';
         function stamped(url) {
           return url + '?v=' + STAMP;
         }
@@ -416,8 +416,8 @@
         // Each part's size is the one build_site.py measured: with a server
         // that compresses (GitHub Pages gzips), what the browser is told is
         // the compressed size, and what it counts is the bytes unpacked.
-        var parts = {engine: {loaded: 0, total: +'20814290'},
-                     ide: {loaded: 0, total: +'34528347'}};
+        var parts = {engine: {loaded: 0, total: +'20821001'},
+                     ide: {loaded: 0, total: +'37847768'}};
         var verb = 'Downloading';
         function progress() {
           var loaded = parts.engine.loaded + parts.ide.loaded;
@@ -865,50 +865,6 @@
           storage.style.display = 'none';
         });
       })();
-    </script>
-
-
-    <script src="webaudio-tinysynth.js"></script>
-    <script>
-    function loadMidiUrl(){
-      synth.loadMIDIUrl('ws.mid');
-    }
-    function loadMidi(files){
-      var reader = new FileReader();
-      reader.onload=(e)=>{
-        synth.loadMIDI(reader.result);
-      }
-      reader.readAsArrayBuffer(files[0]);
-    }
-    function playMidi(){
-      synth.playMIDI();
-    }
-    function stopMidi(){
-      synth.stopMIDI();
-    }
-    function SetProgram(p){
-      synth.send([0xc0,p]);
-    }
-    function Init(){
-      synth=new WebAudioTinySynth({voices:64});
-      for(var i=0;i<128;++i){
-        var o=document.createElement("option");
-        o.innerHTML=synth.getTimbreName(0,i);
-        document.getElementById("prog").appendChild(o);
-      }
-      setInterval(function(){
-        var st=synth.getPlayStatus();
-        document.getElementById("status").innerHTML="Play:"+st.play+"  Pos:"+st.curTick+"/"+st.maxTick;
-      },100);
-    }
-    function Test(){
-      var o=synth.getAudioContext().createOscillator();
-      o.connect(synth.getAudioContext().destination);
-      o.start(0);
-      o.stop(synth.getAudioContext().currentTime+1);
-      console.log(synth)
-    };
-    synth = new WebAudioTinySynth({quality:1, useReverb:1, voices:32});
     </script>
   </body>
 </html>
